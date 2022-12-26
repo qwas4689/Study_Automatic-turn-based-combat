@@ -22,7 +22,7 @@ public class PlayerSpeed : MonoBehaviour
         _resetSlider = ResetSlider;
         enumerator = ActionGauge();
 
-        // StartCoroutine(enumerator);
+        StartCoroutine(enumerator);
     }
 
     private void ResetSlider()
@@ -45,8 +45,6 @@ public class PlayerSpeed : MonoBehaviour
 
         while (true)
         {
-            _speedSlider.value += _playerInfo.PlayerSpeed * (float)0.1;
-
             if (_speedSlider.value >= _speedSlider.maxValue)
             {
                 _speedSlider.value = _speedSlider.maxValue;
@@ -58,6 +56,10 @@ public class PlayerSpeed : MonoBehaviour
                 yield return waitUntil;
 
                 _resetSlider.Invoke();
+            }
+            else
+            {
+                _speedSlider.value += _playerInfo.PlayerSpeed * (float)0.1;
             }
 
             yield return _wait;

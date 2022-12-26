@@ -16,8 +16,10 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField] private Rigidbody _rigidbody;
 
+
     public UnityEvent AttackToEnemy;
-    private WaitForSeconds _wait = new WaitForSeconds(0.1f);
+
+    private IEnumerator attartStart;
     private WaitForSeconds _waitAttack = new WaitForSeconds(1f);
 
     private bool _isAttackEnd;
@@ -44,43 +46,46 @@ public class PlayerAttack : MonoBehaviour
     /// </summary>
     private void Attack()
     {
-        IEnumerator attartStart = AttackCoroutine();
+        attartStart = AttackCoroutine();
         StartCoroutine(attartStart);
     }
 
     private IEnumerator AttackCoroutine()
     {
+        // 적 앞으로
         while (true)
         {
-            // 앞으로 가서
-            _rigidbody.velocity = Vector3.right * 1.5f;
-            //transform.position = Vector3.Lerp(transform.position, _attackLeftPosition, 1f);
-
-            // 공격하고 
-            if (transform.position == _attackLeftPosition)
+            if (transform.position.x >= _attackLeftPosition.x)
             {
+                _rigidbody.velocity = Vector3.zero;
                 break;
             }
+            else
+            {
+                _rigidbody.velocity = Vector3.right * 1.5f;
+            }
+
+            yield return null;
         }
 
-        Instantiate(_bullet);
+        _bullet.SetActive(true);
         yield return _waitAttack;
 
+        // 원위치로
         while (true)
         {
-            // 돌아오기
-            _rigidbody.velocity = -Vector3.forward * 0.1f;
-            //transform.position = Vector3.Lerp(transform.position, _position, 1f);
-
-            // 다 돌아왔을 때
-            if (transform.position == _position)
+            if (transform.position.x <= _position.x)
             {
-                _isAttackEnd = true;
-                break;
+                _rigidbody.velocity = Vector3.zero;
+                yield break;
             }
-        }
+            else
+            {
+                _rigidbody.velocity = -Vector3.right * 3f;
+            }
 
-        yield break;
+            yield return null;
+        }
     }
 
     private void OnDisable()
