@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour
     private Rigidbody _rigidbody;
 
     private Vector3 _bulletPos = new Vector3(0.8f, 0f, 0f);
+
     private IEnumerator delete;
 
     private void Awake()
@@ -27,7 +28,7 @@ public class Bullet : MonoBehaviour
 
     private IEnumerator Delete()
     {
-        _rigidbody.velocity = Vector3.right * 0.5f;
+        _rigidbody.velocity = _side == 0 ? Vector3.right * 0.5f : Vector3.left * 0.5f;
         yield return wait;
         gameObject.SetActive(false);
     }

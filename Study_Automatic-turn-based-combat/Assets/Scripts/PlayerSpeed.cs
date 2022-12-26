@@ -9,7 +9,13 @@ public class PlayerSpeed : MonoBehaviour
 {
     [SerializeField] private Slider _speedSlider;
     [SerializeField] private PlayerInfo _playerInfo;
+    [SerializeField] private PlayerDamge _playerDamge;
+
+    [Header("³» PlayerAttack")]
     [SerializeField] private PlayerAttack _playerAttack;
+
+    [Header("Àû PlayerAttack")]
+    [SerializeField] private PlayerAttack _enemyAttack;
 
     private IEnumerator enumerator;
 
@@ -23,6 +29,14 @@ public class PlayerSpeed : MonoBehaviour
         enumerator = ActionGauge();
 
         StartCoroutine(enumerator);
+
+        _playerDamge._enemyDie.RemoveListener(Stop);
+        _playerDamge._enemyDie.AddListener(Stop);
+    }
+
+    private void Stop()
+    {
+        StopAllCoroutines();
     }
 
     private void ResetSlider()
@@ -37,7 +51,7 @@ public class PlayerSpeed : MonoBehaviour
 
     private bool EnemyAttack()
     {
-        return _playerAttack
+        return _enemyAttack.IsAttack;
     }
 
     /// <summary>
@@ -46,7 +60,8 @@ public class PlayerSpeed : MonoBehaviour
     /// <returns></returns>
     private IEnumerator ActionGauge()
     {
-        WaitUntil waitUntil = new WaitUntil(() => AttackEnd());
+        WaitUntil waitAttackEnd = new WaitUntil(() => AttackEnd());
+        WaitUntil waitaEnemyAttack = new WaitUntil(() => EnemyAttack());
 
         while (true)
         {
@@ -58,13 +73,14 @@ public class PlayerSpeed : MonoBehaviour
 
                 _playerAttack.AttackToEnemy.Invoke();
 
-                yield return waitUntil;
+                yield return waitAttackEnd;
                 _playerAttack.IsAttackEnd = false;
                 _resetSlider.Invoke();
             }
             else
             {
                 _speedSlider.value += _playerInfo.PlayerSpeed * (float)0.05;
+                yield return waitaEnemyAttack;
             }
 
             yield return _wait;
