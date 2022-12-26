@@ -6,16 +6,11 @@ using UnityEngine.UI;
 
 public class PlayerAttack : MonoBehaviour
 {
-    [SerializeField] private PlayerInfo _playerInfo;
-
     [SerializeField] private Slider _speedSlider;
-
-    [SerializeField] private PlayerSpeed _playerSpeed;
-
     [SerializeField] private GameObject _bullet;
-
     [SerializeField] private Rigidbody _rigidbody;
-
+    [SerializeField] private PlayerInfo _playerInfo;
+    [SerializeField] private PlayerSpeed _playerSpeed;
 
     public UnityEvent AttackToEnemy;
 
@@ -34,11 +29,6 @@ public class PlayerAttack : MonoBehaviour
 
         AttackToEnemy.RemoveListener(Attack);
         AttackToEnemy.AddListener(Attack);
-    }
-
-    private void Start()
-    {
-        Attack();
     }
 
     /// <summary>
@@ -77,6 +67,7 @@ public class PlayerAttack : MonoBehaviour
             if (transform.position.x <= _position.x)
             {
                 _rigidbody.velocity = Vector3.zero;
+                _isAttackEnd = true;
                 yield break;
             }
             else

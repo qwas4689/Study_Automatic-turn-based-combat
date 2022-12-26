@@ -35,6 +35,11 @@ public class PlayerSpeed : MonoBehaviour
         return _playerAttack.IsAttackEnd;
     }
 
+    private bool EnemyAttack()
+    {
+        return _playerAttack
+    }
+
     /// <summary>
     /// 행동게이지를 올려주는 코루틴
     /// </summary>
@@ -54,12 +59,12 @@ public class PlayerSpeed : MonoBehaviour
                 _playerAttack.AttackToEnemy.Invoke();
 
                 yield return waitUntil;
-
+                _playerAttack.IsAttackEnd = false;
                 _resetSlider.Invoke();
             }
             else
             {
-                _speedSlider.value += _playerInfo.PlayerSpeed * (float)0.1;
+                _speedSlider.value += _playerInfo.PlayerSpeed * (float)0.05;
             }
 
             yield return _wait;
