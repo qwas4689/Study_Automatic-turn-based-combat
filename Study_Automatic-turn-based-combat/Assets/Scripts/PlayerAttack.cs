@@ -28,6 +28,9 @@ public class PlayerAttack : MonoBehaviour
     private Vector3 _attackPos = new Vector3(1f, 0f, 0f);
     private Vector3 _playerPos = new Vector3(-2.5f, 0f, 0f);
 
+    private float _moveAttackSpeed = 3f;
+    private float _moveBackSpeed = 2f;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -58,7 +61,7 @@ public class PlayerAttack : MonoBehaviour
             }
             else
             {
-                _rigidbody.velocity = Vector3.right * 3f;
+                _rigidbody.velocity = Vector3.right * _moveAttackSpeed;
             }
 
             yield return null;
@@ -79,7 +82,7 @@ public class PlayerAttack : MonoBehaviour
             }
             else
             {
-                _rigidbody.velocity = -Vector3.right * 2f;
+                _rigidbody.velocity = -Vector3.right * _moveBackSpeed;
             }
 
             yield return null;
@@ -98,7 +101,7 @@ public class PlayerAttack : MonoBehaviour
             }
             else
             {
-                _rigidbody.velocity = Vector3.left * 3f;
+                _rigidbody.velocity = Vector3.left * _moveAttackSpeed;
             }
 
             yield return null;
@@ -119,7 +122,7 @@ public class PlayerAttack : MonoBehaviour
             }
             else
             {
-                _rigidbody.velocity = -Vector3.left * 2f;
+                _rigidbody.velocity = -Vector3.left * _moveBackSpeed;
             }
 
             yield return null;

@@ -8,8 +8,7 @@ public class PlayerInfo : MonoBehaviour
     [SerializeField] private int _playerHP;
     public int PlayerHP { get { return _playerHP; } set { _playerHP = value; }}
 
-    [Header("플레이어 속도")]
-    [SerializeField] private float _playerSpeed;
+    private float _playerSpeed;
     public float PlayerSpeed { get { return _playerSpeed; } set { _playerSpeed = value; } }
 
     [Header("플레이어 공격력")]
