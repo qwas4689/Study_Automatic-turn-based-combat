@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInfo : MonoBehaviour
 {
@@ -21,11 +22,20 @@ public class PlayerInfo : MonoBehaviour
     [SerializeField] private float _playerDefensivePower;
     public float PlayerDefensivePower { get { return _playerDefensivePower; } set { _playerDefensivePower = value; } }
 
+    [SerializeField] private Slider _hpSlider;
+
     private void Awake()
     {
         SetSpeed();
 
         MaxHP = _playerHP;
+    }
+
+    private void Start()
+    {
+        _hpSlider.maxValue = MaxHP;
+        _hpSlider.minValue = 0f;
+        _hpSlider.value = MaxHP;
     }
 
     private void SetSpeed()

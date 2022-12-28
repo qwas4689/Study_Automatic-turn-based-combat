@@ -16,12 +16,6 @@ public class PlayerSkill : MonoBehaviour
 
     private const float FIXED_DAMAGE = 50f;
 
-    private const int SKILL_HILL_INDEX = 0;
-    private const int SKILL_DEFENSEPROPORTIONALATTACK_INDEX = 1;
-
-    private const int SKILL_HUGEATTACK_INDEX = 0;
-    private const int SKILL_DOUBLEATTACK_INDEX = 1;
-
     private float _defenseProportionalAttackDamage;
     private float _hugeAttackDamage;
     private float _doubleAttackDamage;
@@ -29,15 +23,15 @@ public class PlayerSkill : MonoBehaviour
     /// <summary>
     /// 최대 체력의 20%를 회복
     /// </summary>
-    public void Skill_Hill(PlayerInfo me)
+    public float Skill_Hill(PlayerInfo me)
     {
         me.PlayerHP += me.MaxHP * 0.2f;
-    }
-    public void Skill_Hill()
-    {
+
         _textUpAndChangeColor = _playerDamge.TextUpAndChangeColor(Color.green);
 
         StartCoroutine(_textUpAndChangeColor);
+
+        return me.MaxHP * 0.2f;
     }
 
     /// <summary>

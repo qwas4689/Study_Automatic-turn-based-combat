@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using System;
+using TMPro;
 using Side = Defines.EBattleSide;
 
 public class PlayerAttack : MonoBehaviour
@@ -15,6 +15,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private PlayerInfo _playerInfo;
     [SerializeField] private PlayerSpeed _playerSpeed;
     [SerializeField] private PlayerSkill _playerSkill;
+    [SerializeField] private TextMeshProUGUI _hillText;
 
     [Header("플레이어1의 스킬 쿨타임을 입력 해 주세요")]
     [SerializeField] private int[] _player1SkillCoolTime;
@@ -37,6 +38,12 @@ public class PlayerAttack : MonoBehaviour
 
     private const int SKILL_1 = 0;
     private const int SKILL_2 = 1;
+
+    private const int SKILL_HILL_COOLTIME = 3;
+    private const int SKILL_DEFENSE_PROPORTIONAL_COOLTIME = 3;
+    private const int SKILL_HUGE_COOLTIME = 2;
+    private const int SKILL_DOUBLE_COOLTIME = 4;
+
 
     private Vector3 _attackPos = new Vector3(1f, 0f, 0f);
     private Vector3 _playerPos = new Vector3(-2.5f, 0f, 0f);
@@ -86,13 +93,13 @@ public class PlayerAttack : MonoBehaviour
             {
                 _playerSkill.Skill_DefenseProportionalAttack();
 
-                _player1SkillCoolTime[SKILL_2] = 3;
+                _player1SkillCoolTime[SKILL_2] = SKILL_DEFENSE_PROPORTIONAL_COOLTIME;
             }
             else if (_player1SkillCoolTime[SKILL_1] == 0)
             {
-                _playerSkill.Skill_Hill(_playerInfo);
+                _hillText.text = _playerSkill.Skill_Hill(_playerInfo).ToString();
 
-                _player1SkillCoolTime[SKILL_1] = 3;
+                _player1SkillCoolTime[SKILL_1] = SKILL_HILL_COOLTIME;
             }
         }
         else
@@ -169,13 +176,13 @@ public class PlayerAttack : MonoBehaviour
             {
                 _playerSkill.Skill_DoubleAttack();
 
-                _player2SkillCoolTime[SKILL_2] = 4;
+                _player2SkillCoolTime[SKILL_2] = SKILL_DOUBLE_COOLTIME;
             }
             else if (_player2SkillCoolTime[SKILL_1] == 0)
             {
                 _playerSkill.Skill_HugeAttack();
 
-                _player2SkillCoolTime[SKILL_1] = 2;
+                _player2SkillCoolTime[SKILL_1] = SKILL_HUGE_COOLTIME;
             }
         }
         else

@@ -501,6 +501,7 @@ MonoBehaviour:
   _playerHP: 300
   _playerDamage: 50
   _playerDefensivePower: 20
+  _hpSlider: {fileID: 734014757}
 --- !u!114 &243641397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,6 +539,7 @@ MonoBehaviour:
   _playerInfo: {fileID: 243641396}
   _playerSpeed: {fileID: 243641397}
   _playerSkill: {fileID: 243641401}
+  _hillText: {fileID: 1751992562}
   _player1SkillCoolTime: 0300000003000000
   _player2SkillCoolTime: 
   AttackToEnemy:
@@ -720,6 +722,7 @@ MonoBehaviour:
   _playerHP: 300
   _playerDamage: 50
   _playerDefensivePower: 20
+  _hpSlider: {fileID: 685660782}
 --- !u!114 &319063811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -775,6 +778,7 @@ MonoBehaviour:
   _playerInfo: {fileID: 319063810}
   _playerSpeed: {fileID: 319063814}
   _playerSkill: {fileID: 319063815}
+  _hillText: {fileID: 0}
   _player1SkillCoolTime: 
   _player2SkillCoolTime: 0200000004000000
   AttackToEnemy:
