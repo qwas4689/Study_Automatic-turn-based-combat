@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using Side = Defines.EBattleSide;
 
 public class PlayerSpeed : MonoBehaviour
 {
+    [SerializeField] private Side _side;
     [SerializeField] private Slider _speedSlider;
     [SerializeField] private PlayerInfo _playerInfo;
     [SerializeField] private PlayerDamge _playerDamge;
@@ -70,6 +72,7 @@ public class PlayerSpeed : MonoBehaviour
                 _speedSlider.value = _speedSlider.maxValue;
 
                 yield return _wait;
+
 
                 _playerAttack.AttackToEnemy.Invoke();
 
