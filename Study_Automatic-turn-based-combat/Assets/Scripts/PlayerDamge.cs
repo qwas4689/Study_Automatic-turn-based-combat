@@ -36,9 +36,11 @@ public class PlayerDamge : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        float myHitDamage = other.GetComponentInParent<PlayerInfo>().PlayerDamage + _playerInfo.PlayerDefensivePower;
+
         if (other.tag.Contains("Bullet"))
         {
-            _playerInfo.PlayerHP -= other.GetComponentInParent<PlayerInfo>().PlayerDamage;
+            _playerInfo.PlayerHP -= myHitDamage;
             _hpSlider.value = _playerInfo.PlayerHP;
             _damageText.text = other.GetComponentInParent<PlayerInfo>().PlayerDamage.ToString();
             _hit.Invoke();

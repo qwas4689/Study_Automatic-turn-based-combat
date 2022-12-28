@@ -21,6 +21,12 @@ public class PlayerSpeed : MonoBehaviour
 
     private Action _resetSlider;
 
+    [Header("플레이어1의 스킬 쿨타임을 입력 해 주세요")]
+    [SerializeField] private int[] _Player1SkillCoolTime;
+
+    [Header("플레이어2의 스킬 쿨타임을 입력 해 주세요")]
+    [SerializeField] private int[] _Player2SkillCoolTime;
+
     private WaitForSeconds _wait = new WaitForSeconds(0.01f);
 
     private void Start()
