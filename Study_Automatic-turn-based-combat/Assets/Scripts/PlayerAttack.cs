@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System;
 using Side = Defines.EBattleSide;
 
 public class PlayerAttack : MonoBehaviour
@@ -13,6 +14,15 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private PlayerInfo _playerInfo;
     [SerializeField] private PlayerSpeed _playerSpeed;
+    [SerializeField] private PlayerSkill _playerSkill;
+
+    [Header("플레이어1의 스킬 쿨타임을 입력 해 주세요")]
+    [SerializeField] private int[] _player1SkillCoolTime;
+    public int[] Player1SkillCoolTime { get { return _player1SkillCoolTime; } set { _player1SkillCoolTime = value; } }
+
+    [Header("플레이어2의 스킬 쿨타임을 입력 해 주세요")]
+    [SerializeField] private int[] _player2SkillCoolTime;
+    public int[] Player2SkillCoolTime { get { return _player2SkillCoolTime; } set { _player2SkillCoolTime = value; } }
 
     public UnityEvent AttackToEnemy;
 
@@ -24,6 +34,9 @@ public class PlayerAttack : MonoBehaviour
 
     private bool _isAttack = true;
     public bool IsAttack { get { return _isAttack; } set { _isAttack = value; } }
+
+    private const int SKILL_1 = 0;
+    private const int SKILL_2 = 1;
 
     private Vector3 _attackPos = new Vector3(1f, 0f, 0f);
     private Vector3 _playerPos = new Vector3(-2.5f, 0f, 0f);
@@ -67,7 +80,26 @@ public class PlayerAttack : MonoBehaviour
             yield return null;
         }
 
-        _bullet.SetActive(true);
+        if (SetSkillCoolTime(_player1SkillCoolTime))
+        {
+            if (_player1SkillCoolTime[SKILL_2] == 0)
+            {
+                _playerSkill.Skill_DefenseProportionalAttack();
+
+                _player1SkillCoolTime[SKILL_2] = 3;
+            }
+            else if (_player1SkillCoolTime[SKILL_1] == 0)
+            {
+                _playerSkill.Skill_Hill(_playerInfo);
+
+                _player1SkillCoolTime[SKILL_1] = 3;
+            }
+        }
+        else
+        {
+            _bullet.SetActive(true);
+        }
+
         yield return _waitAttack;
 
         // 원위치로
@@ -89,6 +121,30 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 플레이어 스킬 쿨타임 감소
+    /// </summary>
+    /// <param name="player"></param>
+    private bool SetSkillCoolTime(int[] player)
+    {
+        bool isOn = false;
+        for (int i = 0; i < player.Length; ++i)
+        {
+            --player[i];
+
+            if (player[i] <= 0)
+            {
+                player[i] = 0;
+            }
+            if (player[i] == 0)
+            {
+                isOn = true;
+            }
+        }
+
+        return isOn;
+    }
+
     private IEnumerator RightPlayerAttack()
     {
         // 적 앞으로
@@ -107,7 +163,26 @@ public class PlayerAttack : MonoBehaviour
             yield return null;
         }
 
-        _bullet.SetActive(true);
+        if (SetSkillCoolTime(_player2SkillCoolTime))
+        {
+            if (_player2SkillCoolTime[SKILL_2] == 0)
+            {
+                _playerSkill.Skill_DoubleAttack();
+
+                _player2SkillCoolTime[SKILL_2] = 4;
+            }
+            else if (_player2SkillCoolTime[SKILL_1] == 0)
+            {
+                _playerSkill.Skill_HugeAttack();
+
+                _player2SkillCoolTime[SKILL_1] = 2;
+            }
+        }
+        else
+        {
+            _bullet.SetActive(true);
+        }
+
         yield return _waitAttack;
 
         // 원위치로

@@ -12,6 +12,7 @@ public class PlayerDamge : MonoBehaviour
     [SerializeField] private Slider _hpSlider;
     [SerializeField] private TextMeshProUGUI _damageText;
     [SerializeField] private PlayerSpeed _playerSpeed;
+    [SerializeField] private PlayerSkill _playerSkill;
 
     public UnityEvent _enemyDie;
 
@@ -30,19 +31,69 @@ public class PlayerDamge : MonoBehaviour
 
     private void Hit()
     {
-        _textUpAndChangeColor = TextUpAndChangeColor();
+        _textUpAndChangeColor = TextUpAndChangeColor(Color.black);
         StartCoroutine(_textUpAndChangeColor);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        float myHitDamage = other.GetComponentInParent<PlayerInfo>().PlayerDamage + _playerInfo.PlayerDefensivePower;
+        float myHitDamage;
 
         if (other.tag.Contains("Bullet"))
         {
+            myHitDamage = other.GetComponentInParent<PlayerInfo>().PlayerDamage - _playerInfo.PlayerDefensivePower;
+
             _playerInfo.PlayerHP -= myHitDamage;
             _hpSlider.value = _playerInfo.PlayerHP;
-            _damageText.text = other.GetComponentInParent<PlayerInfo>().PlayerDamage.ToString();
+            _damageText.text = myHitDamage.ToString();
+            _hit.Invoke();
+
+            if (_playerInfo.PlayerHP <= 0)
+            {
+                other.GetComponentInParent<PlayerSpeed>().StopAllCoroutines();
+                _enemyDie.Invoke();
+            }
+        }
+
+        else if (other.tag.Contains("DefenseProportionalAttack"))
+        {
+            myHitDamage = _playerSkill.Skill_DefenseProportionalAttack(other) - _playerInfo.PlayerDefensivePower;
+
+            _playerInfo.PlayerHP -= myHitDamage;
+            _hpSlider.value = _playerInfo.PlayerHP;
+            _damageText.text = myHitDamage.ToString();
+            _hit.Invoke();
+
+            if (_playerInfo.PlayerHP <= 0)
+            {
+                other.GetComponentInParent<PlayerSpeed>().StopAllCoroutines();
+                _enemyDie.Invoke();
+            }
+        }
+
+        else if (other.tag.Contains("HugeAttack"))
+        {
+            myHitDamage = _playerSkill.Skill_HugeAttack(other) - _playerInfo.PlayerDefensivePower;
+
+            _playerInfo.PlayerHP -= myHitDamage;
+            _hpSlider.value = _playerInfo.PlayerHP;
+            _damageText.text = myHitDamage.ToString();
+            _hit.Invoke();
+
+            if (_playerInfo.PlayerHP <= 0)
+            {
+                other.GetComponentInParent<PlayerSpeed>().StopAllCoroutines();
+                _enemyDie.Invoke();
+            }
+        }
+
+        else if (other.tag.Contains("DoubleAttack"))
+        {
+            myHitDamage = _playerSkill.Skill_DoubleAttack(other) - _playerInfo.PlayerDefensivePower;
+
+            _playerInfo.PlayerHP -= myHitDamage;
+            _hpSlider.value = _playerInfo.PlayerHP;
+            _damageText.text = myHitDamage.ToString();
             _hit.Invoke();
 
             if (_playerInfo.PlayerHP <= 0)
@@ -53,14 +104,14 @@ public class PlayerDamge : MonoBehaviour
         }
     }
 
-    private IEnumerator TextUpAndChangeColor()
+    public IEnumerator TextUpAndChangeColor(Color color)
     {
         while (true)
         {
             if (_damageText.color.a <= 0f)
             {
                 _damageText.rectTransform.anchoredPosition = _textPos;
-                _damageText.color = Color.black;
+                _damageText.color = color;
                 _damageText.text = null;
                 yield break;
             }

@@ -8,6 +8,8 @@ public class PlayerInfo : MonoBehaviour
     [SerializeField] private float _playerHP;
     public float PlayerHP { get { return _playerHP; } set { _playerHP = value; }}
 
+    public float MaxHP { get; private set; }
+
     private float _playerSpeed;
     public float PlayerSpeed { get { return _playerSpeed; } set { _playerSpeed = value; } }
 
@@ -22,6 +24,8 @@ public class PlayerInfo : MonoBehaviour
     private void Awake()
     {
         SetSpeed();
+
+        MaxHP = _playerHP;
     }
 
     private void SetSpeed()

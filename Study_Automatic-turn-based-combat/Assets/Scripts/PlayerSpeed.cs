@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using Side = Defines.EBattleSide;
 
 public class PlayerSpeed : MonoBehaviour
 {
+    [SerializeField] private Side _side;
     [SerializeField] private Slider _speedSlider;
     [SerializeField] private PlayerInfo _playerInfo;
     [SerializeField] private PlayerDamge _playerDamge;
@@ -20,12 +22,6 @@ public class PlayerSpeed : MonoBehaviour
     private IEnumerator enumerator;
 
     private Action _resetSlider;
-
-    [Header("플레이어1의 스킬 쿨타임을 입력 해 주세요")]
-    [SerializeField] private int[] _Player1SkillCoolTime;
-
-    [Header("플레이어2의 스킬 쿨타임을 입력 해 주세요")]
-    [SerializeField] private int[] _Player2SkillCoolTime;
 
     private WaitForSeconds _wait = new WaitForSeconds(0.01f);
 
@@ -76,6 +72,7 @@ public class PlayerSpeed : MonoBehaviour
                 _speedSlider.value = _speedSlider.maxValue;
 
                 yield return _wait;
+
 
                 _playerAttack.AttackToEnemy.Invoke();
 
