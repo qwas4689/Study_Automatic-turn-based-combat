@@ -16,6 +16,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private PlayerSpeed _playerSpeed;
     [SerializeField] private PlayerSkill _playerSkill;
     [SerializeField] private TextMeshProUGUI _hillText;
+    [SerializeField] private Slider _hpSlider;
 
     [Header("플레이어1의 스킬 쿨타임을 입력 해 주세요")]
     [SerializeField] private int[] _player1SkillCoolTime;
@@ -98,7 +99,7 @@ public class PlayerAttack : MonoBehaviour
             else if (_player1SkillCoolTime[SKILL_1] == 0)
             {
                 _hillText.text = _playerSkill.Skill_Hill(_playerInfo).ToString();
-
+                _hpSlider.value = _playerInfo.PlayerHP;
                 _player1SkillCoolTime[SKILL_1] = SKILL_HILL_COOLTIME;
             }
         }

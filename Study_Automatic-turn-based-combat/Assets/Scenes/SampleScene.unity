@@ -540,6 +540,7 @@ MonoBehaviour:
   _playerSpeed: {fileID: 243641397}
   _playerSkill: {fileID: 243641401}
   _hillText: {fileID: 1751992562}
+  _hpSlider: {fileID: 734014757}
   _player1SkillCoolTime: 0300000003000000
   _player2SkillCoolTime: 
   AttackToEnemy:
@@ -779,6 +780,7 @@ MonoBehaviour:
   _playerSpeed: {fileID: 319063814}
   _playerSkill: {fileID: 319063815}
   _hillText: {fileID: 0}
+  _hpSlider: {fileID: 0}
   _player1SkillCoolTime: 
   _player2SkillCoolTime: 0200000004000000
   AttackToEnemy:
